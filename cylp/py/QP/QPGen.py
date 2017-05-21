@@ -14,13 +14,13 @@ def getA(nRows, nCols, nnzPerCol):
     '''
     A = sparse.lil_matrix((nRows, nCols))
     solCols = []
-    for nRow in xrange(nRows):
+    for nRow in range(nRows):
         nCol = random.randint(0, nCols-1)
         A[nRow, nCol] = 1
         solCols.append(nCol)
    
-    for nCol in [j for j in xrange(nCols) if j not in solCols]:
-        for i in xrange(nnzPerCol):
+    for nCol in [j for j in range(nCols) if j not in solCols]:
+        for i in range(nnzPerCol):
             #if random.randint(0, 1):
                 A[random.randint(0, nRows-1), nCol] = 1
             #else:
@@ -31,7 +31,7 @@ def getA(nRows, nCols, nnzPerCol):
 def getG(nCols):
     n = nCols
     G = sparse.lil_matrix((n, n))
-    for i in xrange(0, n-1):
+    for i in range(0, n-1):
         G[i, i] = 1
         #G[i+1, i] = -0.2
         #G[i, i+1] = -0.2
@@ -108,7 +108,7 @@ class QPGen:
         s = CyClpSimplex()
        
         iNonZero = set(random.randint(n, size=self.nnzPerCol))
-        iZero = [i for i in xrange(n) if i not in iNonZero]
+        iZero = [i for i in range(n) if i not in iNonZero]
         x_star = np.matrix(np.zeros((n, 1)))
         z_star = np.matrix(np.zeros((n, 1)))
         
@@ -126,7 +126,7 @@ class QPGen:
         c = -(G * x_star - A.T * y_star - z_star)
         
         obj = 0.5 * ((x_star.T * G) * x_star) + c.T * x_star
-        print obj 
+        print(obj) 
 
         c = CyLPArray((c.T)[0])
         
@@ -151,7 +151,7 @@ class QPGen:
         filename = 'qp_%d_%d_%d_%d_%d_%s.qps' % (self.n, self.m, self.HesCond, 
                                    self.nnzPerCol, self.costRange, self.signs)
         filename = 'tests/' + filename
-        print 'writing to %s.' % filename
+        print('writing to %s.' % filename)
         self.model.writeMps(filename)
 
 
@@ -160,8 +160,8 @@ if __name__ == '__main__':
     import cProfile
     import sys
     n, m = int(sys.argv[1]), int(sys.argv[2])
-    print m
-    print m/10
+    print(m)
+    print(m/10)
     qp = QPGen(n, m, 1, m/10, 10000, 'G')
     qp.writeToFile()
     

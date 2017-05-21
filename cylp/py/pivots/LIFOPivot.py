@@ -2,7 +2,7 @@ import numpy as np
 from operator import itemgetter
 from random import shuffle
 from math import floor
-from PivotPythonBase import PivotPythonBase
+from .PivotPythonBase import PivotPythonBase
 from cylp.cy.CyClpSimplex import VarStatus
 
 
@@ -34,7 +34,7 @@ class LIFOPivot(PivotPythonBase):
         self.clpModel = clpModel
         #self.banList = np.zeros(self.dim, np.int)
         self.banList = []
-        self.priorityList = range(self.dim)
+        self.priorityList = list(range(self.dim))
 
     def pivotColumn(self, updates, spareRow1, spareRow2, spareCol1, spareCol2):
         'Finds the variable with the best reduced cost and returns its index'

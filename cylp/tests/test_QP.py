@@ -22,8 +22,8 @@ class TestQP(unittest.TestCase):
         s.setPivotMethod(p)
 
         s.primal()
-        print s.primalVariableSolution
-        print s.objectiveValue
+        print(s.primalVariableSolution)
+        print(s.objectiveValue)
 
 if __name__ == '__main__':
     unittest.main()

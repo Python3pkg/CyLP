@@ -12,7 +12,7 @@ def isInt(x):
     Return True if x is an integer, or if x is a numpy array
     with all integer elements, False otherwise
     '''
-    if isinstance(x, (int, long, float)):
+    if isinstance(x, (int, float)):
         return abs(math.floor(x) - x) < epsilon
     return (np.abs(np.floor(x) - x) < epsilon).all()
 
@@ -47,10 +47,10 @@ class GomoryCutGenerator:
 
         intInds = clpModel.integerInformation
 
-        rhsIsInt = map(isInt, rhs)
+        rhsIsInt = list(map(isInt, rhs))
 
         cuts = []
-        for rowInd in xrange(s.nConstraints):
+        for rowInd in range(s.nConstraints):
             basicVarInd = bv[rowInd]
             if basicVarInd < clpModel.nVariables and intInds[basicVarInd] and not rhsIsInt[rowInd]:
                 coef, b = gomoryCut(clpModel, rowInd)
@@ -94,5 +94,5 @@ if __name__ == '__main__':
     #cbcModel.branchAndBound()
     cbcModel.solve()
     
-    print cbcModel.primalVariableSolution
+    print(cbcModel.primalVariableSolution)
 

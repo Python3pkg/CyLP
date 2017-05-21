@@ -107,7 +107,7 @@ class TestMIP(unittest.TestCase):
 
         s.copyInIntegerInformation(np.array(s.nCols * [True], np.uint8))
 
-        print "Solving relaxation"
+        print("Solving relaxation")
         cbcModel = s.getCbcModel()
         n = SimpleNodeCompare()
         cbcModel.setNodeCompare(n)
@@ -133,7 +133,7 @@ class TestMIP(unittest.TestCase):
         x = s.addVariable('x', (5, 3, 6))
         s += 2 * x[2, :, 3].sum() + 3 * x[0, 1, :].sum() >= 5.5
         s += 0 <= x <= 2.2
-        c = CyLPArray(range(18))
+        c = CyLPArray(list(range(18)))
         s.objective = c * x[2, :, :] + c * x[0, :, :]
 
         s.setInteger(x)
@@ -152,7 +152,7 @@ class TestMIP(unittest.TestCase):
         x = s.addVariable('x', (5, 3, 6))
         s += 2 * x[2, :, 3].sum() + 3 * x[0, 1, :].sum() >= 5.5
         s += 0 <= x <= 2.2
-        c = CyLPArray(range(18))
+        c = CyLPArray(list(range(18)))
         s.objective = c * x[2, :, :] + c * x[0, :, :]
 
         s.setInteger(x)

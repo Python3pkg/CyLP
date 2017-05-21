@@ -126,8 +126,9 @@ import numpy as np
 from scipy import sparse
 from scipy.sparse import identity, lil_matrix
 from cylp.py.utils.util import Ind, getMultiDimMatrixIndex, getTupleIndex
+from functools import reduce
 
-NUMBERS = (int, float, long, np.int64, np.int32, np.double)
+NUMBERS = (int, float, int, np.int64, np.int32, np.double)
 def isNumber(n):
     return (isinstance(n, NUMBERS) or
             (isinstance(n, CyLPArray) and n.shape == ()))
@@ -275,7 +276,7 @@ class CyLPExpr:
             cons.varCoefs[var] = identitySub(var) #np.ones(var.dim)
 
         # Reset variables for future constraints
-        for var in cons.varCoefs.keys():
+        for var in list(cons.varCoefs.keys()):
             var.expr = var
 
         return cons
@@ -406,7 +407,7 @@ class CyLPConstraint:
 
                     # No coefs for right op
                     if isinstance(right, CyLPVar):
-                        if right in self.varCoefs.keys():
+                        if right in list(self.varCoefs.keys()):
                             self.varCoefs[right] *= -1
                         else:
                             coef = identitySub(right)
@@ -596,7 +597,7 @@ class CyLPVar(CyLPExpr):
 
         elif isinstance(key, tuple):
             inds = []
-            n = range(len(key))
+            n = list(range(len(key)))
             for i in n:
                 k = key[i]
                 if isinstance(k, int):
@@ -713,8 +714,8 @@ class IndexFactory:
             return
         if not varName:
             raise Exception('You must specify a name for a variable.')
-        if varName in self.varIndex.keys():
-            print 'Variable already exists.'
+        if varName in list(self.varIndex.keys()):
+            print('Variable already exists.')
             #self.varIndex[varName] += range(self.currentVarIndex,
             #                                self.currentVarIndex +
             #                                numberOfVars)
@@ -730,14 +731,14 @@ class IndexFactory:
         nVars = len(self.varIndex[name])
         start = self.varIndex[name][0]
         del self.varIndex[name]
-        for varName in self.varIndex.keys():
+        for varName in list(self.varIndex.keys()):
             inds = self.varIndex[varName]
             if inds[0] > start:
                 self.varIndex[varName] = inds - nVars * np.ones(len(inds),
                                                                 np.int32)
 
     def hasVar(self, varName):
-        return varName in self.varIndex.keys()
+        return varName in list(self.varIndex.keys())
 
     def hasConst(self, constName):
         return constName in self.constIndex
@@ -751,7 +752,7 @@ class IndexFactory:
         if not constName:
             raise Exception('You must specify a name for a constraint.')
         if self.hasConst(constName):
-            print 'Constraint already exists: %s' % constName
+            print('Constraint already exists: %s' % constName)
             #self.constIndex[constName] += range(self.currentConstIndex,
             #        self.currentConstIndex + numberOfConsts)
         else:
@@ -766,7 +767,7 @@ class IndexFactory:
         nCons = len(self.constIndex[name])
         start = self.constIndex[name][0]
         del self.constIndex[name]
-        for constName in self.constIndex.keys():
+        for constName in list(self.constIndex.keys()):
             inds = self.constIndex[constName]
             if inds[0] > start:
                 self.constIndex[constName] = inds - nCons * np.ones(len(inds),
@@ -782,11 +783,11 @@ class IndexFactory:
         cind = self.constIndex
 
         s = "variables : \n"
-        for vname, rg in varind.items():
+        for vname, rg in list(varind.items()):
             s += '%s : %s\n' % (vname.rjust(15), str(rg))
         s += '\n'
         s += "constraints : \n"
-        for cname, rg in cind.items():
+        for cname, rg in list(cind.items()):
             s += '%s : %s\n' % (cname.rjust(15), str(rg))
         return s
 
@@ -795,7 +796,7 @@ class IndexFactory:
         Take an index and return the corresponding variable name.
         '''
         inds = self.varIndex
-        for key in inds.keys():
+        for key in list(inds.keys()):
             if ind in inds[key]:
                 i = np.where(inds[key]==ind)[0][0]
                 return key, i
@@ -846,9 +847,9 @@ class CyLPModel(object):
 
             if var.dims:
                 var.mpsNames = [var.name + '_' + '_'.join(x) for x in \
-                        product(*[map(str, range(i)) for i in var.dims])]
+                        product(*[list(map(str, list(range(i)))) for i in var.dims])]
             else:
-                var.mpsNames = ['%s_%s' % (var.name, i) for i in xrange(var.dim)]
+                var.mpsNames = ['%s_%s' % (var.name, i) for i in range(var.dim)]
 
             o = self.objective_
             if isinstance(o, np.ndarray):
@@ -880,7 +881,7 @@ class CyLPModel(object):
         else:
             if end == o.shape[1]:
                 if start == 0:
-                    print 'Problem empty.'
+                    print('Problem empty.')
                 else:
                     o = o[0, :start]
             elif start == 0:
@@ -905,7 +906,7 @@ class CyLPModel(object):
             if name in c.varNames:
                 c.varNames.remove(name)
                 del c.parentVarDims[name]
-                for v in c.varCoefs.keys():
+                for v in list(c.varCoefs.keys()):
                     if v.name == name:
                         del c.varCoefs[v]
 
@@ -987,7 +988,7 @@ class CyLPModel(object):
 
         if addMpsNames:
             c.mpsNames = []
-            for i in xrange(c.nRows):
+            for i in range(c.nRows):
                 c.mpsNames.append('%s_%s' % (c.name, str(i)))
 
 
@@ -1017,7 +1018,7 @@ class CyLPModel(object):
         dim = self.pvdims[varName]
         coef = csr_matrixPlus((1, dim))
         obj = self.objective_
-        keys = [k for k in obj.varCoefs.keys() if k.name == varName]
+        keys = [k for k in list(obj.varCoefs.keys()) if k.name == varName]
 
         for var in keys:
             coef = coef + obj.varCoefs[var]
@@ -1033,7 +1034,7 @@ class CyLPModel(object):
         mainCoef = None
         for c in self.constraints:
             coef = sparse.coo_matrix((c.nRows, dim))
-            keys = [k for k in c.varCoefs.keys() if k.name == varName]
+            keys = [k for k in list(c.varCoefs.keys()) if k.name == varName]
             for var in keys:
                 coef = coef + c.varCoefs[var]
             mainCoef = sparseConcat(mainCoef, coef, 'v')
@@ -1100,13 +1101,13 @@ class CyLPSolution:
 
     def getVal(self, key):
         'Return the value corresponing key'
-        if key not in self.sol.keys():
+        if key not in list(self.sol.keys()):
             return 0
         return self.sol[key]
 
     def __getitem__(self, key):
         #if isinstance(key, tuple):
-        if key in self.sol.keys():
+        if key in list(self.sol.keys()):
             return self.sol[key]
         else:
             return 0
@@ -1131,13 +1132,13 @@ if __name__ == '__main__':
     s += 2 * x[2, :, 3].sum() + 3 * x[0, 1, :].sum() >= 5
 
     s += 0 <= x <= 1
-    c = CyLPArray(range(18))
+    c = CyLPArray(list(range(18)))
 
     s.objective = c * x[2, :, :] + c * x[0, :, :]
     s.writeMps('/Users/mehdi/Desktop/test.mps')
     s.primal()
     sol = s.primalVariableSolution
-    print sol
+    print(sol)
 
 #model = CyLPModel()
 #

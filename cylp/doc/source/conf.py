@@ -49,8 +49,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'cylp'
-copyright = u'2011, Mehdi Towhidi, Dominique Orban'
+project = 'cylp'
+copyright = '2011, Mehdi Towhidi, Dominique Orban'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -187,8 +187,8 @@ htmlhelp_basename = 'cylpDocumentationdoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'cylpDocumentation.tex', u'cylp Documentation Documentation',
-   u'Mehdi Towhidi', 'manual'),
+  ('index', 'cylpDocumentation.tex', 'cylp Documentation Documentation',
+   'Mehdi Towhidi', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -220,8 +220,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'cylpdocumentation', u'cylp Documentation Documentation',
-     [u'Mehdi Towhidi'], 1)
+    ('index', 'cylpdocumentation', 'cylp Documentation Documentation',
+     ['Mehdi Towhidi'], 1)
 ]
 
 

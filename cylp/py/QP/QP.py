@@ -29,7 +29,7 @@ def getSolution(s, varGroupname):
 #    return csc_matrixPlus(sparse.eye(n, n))
 
 def checkComp(x, y):
-    for i in xrange(len(x)):
+    for i in range(len(x)):
         if x[i] != 0 and y[i] != 0:
             return i
     return -1
@@ -141,36 +141,36 @@ class QP:
 #        print 'c'
 #        print c
        
-        iVarsWithJustUpperBound = [i for i in xrange(nVar) 
+        iVarsWithJustUpperBound = [i for i in range(nVar) 
                             if x_up[i] < infinity and x_low[i] <= -infinity]
         nVarsWithJustUpperBound = len(iVarsWithJustUpperBound)
 
-        iVarsWithJustLowerBound = [i for i in xrange(nVar) 
+        iVarsWithJustLowerBound = [i for i in range(nVar) 
                             if x_low[i] > -infinity and x_up[i] >= infinity]
         nVarsWithJustLowerBound = len(iVarsWithJustLowerBound)
         
         iVarsWithBothBounds = \
-                [i for i in xrange(nVar) 
+                [i for i in range(nVar) 
                         if x_low[i] > -infinity and x_up[i] < infinity]
         nVarsWithBothBounds = len(iVarsWithBothBounds)
 
         iFreeVars = \
-                [i for i in xrange(nVar) 
+                [i for i in range(nVar) 
                         if x_low[i] <= -infinity and x_up[i] >= infinity]
         nFreeVars = len(iFreeVars)
 
         iConstraintsWithBothBounds = \
-                [i for i in xrange(nInEquality)
+                [i for i in range(nInEquality)
                         if c_up[i] < infinity and c_low[i] > -infinity]
         nConstraintsWithBothBounds = len(iConstraintsWithBothBounds)
 
         iConstraintsWithJustUpperBound = \
-                [i for i in xrange(nInEquality)
+                [i for i in range(nInEquality)
                         if c_up[i] < infinity and c_low[i] <= -infinity]
         nConstraintsWithJustUpperBound = len(iConstraintsWithJustUpperBound)
 
         iConstraintsWithJustLowerBound = \
-                [i for i in xrange(nInEquality)
+                [i for i in range(nInEquality)
                         if c_up[i] >= infinity and c_low[i] > -infinity]
         nConstraintsWithJustLowerBound = len(iConstraintsWithJustLowerBound)
         
@@ -365,7 +365,7 @@ class QP:
         #print 'A nnz:', A.nnz, A.nnz / float(A.shape[0] * A.shape[1])
 
         #print G.todense()
-        minDiag = min(G[i, i] for i in xrange(nx))    
+        minDiag = min(G[i, i] for i in range(nx))    
         delta =  max(10**-8, 0.01 * max(1.0**-4, minDiag))
         G = G + delta * I(nVar)
         #print G.todense()
@@ -421,8 +421,8 @@ class QP:
 
         self.writeReport('qpout', s, timeToMake, timeToSolve, method, p)
         
-        print 'x'
-        print s.primalVariableSolution['x']
+        print('x')
+        print(s.primalVariableSolution['x'])
 #        print 'z'
 #        print s.primalVariableSolution['z']
 #        print 'y'
@@ -496,18 +496,18 @@ class QP:
         #s.initialPrimalSolve()
         if method == 'wp':
             total = p.compCount + p.nonCompCount
-            print 'comp : %g ' % (p.compCount / float(total))
-            print 'comp rejection : %g' % (p.compRej / float(p.compCount))
+            print('comp : %g ' % (p.compCount / float(total)))
+            print('comp rejection : %g' % (p.compRej / float(p.compCount)))
         #print s.primalVariableSolution 
-        print 'OBJ:', s.objectiveValue 
+        print('OBJ:', s.objectiveValue) 
         x = np.matrix(s.primalVariableSolution['x']).T
         #print A * x - np.matrix(b).T
-        print 'objective:'
+        print('objective:')
         x = x[:nx]
         G = G[:nx, :nx]
         qobj = 0.5 * x.T * G * x + np.dot(c, x) - self.objectiveOffset
-        print qobj 
-        print s.primalVariableSolution
+        print(qobj) 
+        print(s.primalVariableSolution)
 
 #        print s.iteration
 #        f = open('qpout', 'a')
@@ -587,7 +587,7 @@ class QP:
         s = CyClpSimplex()
         model = CyCoinModel()
 
-        inds = xrange(nVar)
+        inds = range(nVar)
 
         # Convert G and A to sparse matrices (coo) if they're not already
 #       if type(G) == np.matrixlib.defmatrix.matrix:
@@ -607,30 +607,30 @@ class QP:
 
         #i for indices, n for size of the set
         iVarsWithUpperBound = \
-                [i for i in xrange(len(x_up)) if x_up[i] < infinity]
+                [i for i in range(len(x_up)) if x_up[i] < infinity]
         nVarsWithUpperBound = len(iVarsWithUpperBound)
         
         iVarsWithLowerBound = \
-                [i for i in xrange(len(x_low)) if x_low[i] > -infinity]
+                [i for i in range(len(x_low)) if x_low[i] > -infinity]
         nVarsWithLowerBound = len(iVarsWithLowerBound)
         
         iVarsWithBothBounds = \
-                [i for i in xrange(len(x_low)) if 
+                [i for i in range(len(x_low)) if 
                  x_low[i] > -infinity and x_low[i] < infinity]
         nVarsWithBothBounds = len(iVarsWithBothBounds)
 
         iConstraintsWithBothBounds = \
-                [i for i in xrange(nInEquality)
+                [i for i in range(nInEquality)
                         if c_up[i] < infinity and c_low[i] > -infinity]
         nConstraintsWithBothBounds = len(iConstraintsWithBothBounds)
 
         iConstraintsWithJustUpperBound = \
-                [i for i in xrange(nInEquality)
+                [i for i in range(nInEquality)
                         if c_up[i] < infinity and c_low[i] <= -infinity]
         nConstraintsWithJustUpperBound = len(iConstraintsWithJustUpperBound)
 
         iConstraintsWithJustLowerBound = \
-                [i for i in xrange(nInEquality)
+                [i for i in range(nInEquality)
                         if c_up[i] >= infinity and c_low[i] > -infinity]
         nConstraintsWithJustLowerBound = len(iConstraintsWithJustLowerBound)
 
@@ -743,7 +743,7 @@ class QP:
                 IndexFactory.addConst('x-x_l=x_low', 1)
                 IndexFactory.addVar('x_l', 1)
 
-        if 'g1' in IndexFactory.varIndex.keys():
+        if 'g1' in list(IndexFactory.varIndex.keys()):
             g1_inds = IndexFactory.varIndex['g1']
             for i in range(len(g1_inds)):
                 g1_i = g1_inds[i]
@@ -827,8 +827,8 @@ class QP:
                             np.array(rowi.data, 'd'), -infinity, infinity, 0)
         IndexFactory.addVar('y_A', A.shape[0])
 
-        cl = np.array(range(IndexFactory.currentVarIndex +
-                            A.shape[1]), np.int32)
+        cl = np.array(list(range(IndexFactory.currentVarIndex +
+                            A.shape[1])), np.int32)
         s.setComplementarityList(cl)
 
         #adding -z
@@ -873,10 +873,10 @@ class QP:
 
         st = clock()
         s.primal()
-        print "CLP time : %g seconds" % (clock() - st)
+        print("CLP time : %g seconds" % (clock() - st))
 
         x = s.getPrimalVariableSolution()
-        print "sol = "
+        print("sol = ")
         x = x[:nVar]
         #print x
         G = G.todense()
@@ -884,7 +884,7 @@ class QP:
         #print x * G
         #print c
         #print x
-        print 0.5 * x * (x * G).T + np.dot(c, x) - self.objectiveOffset
+        print(0.5 * x * (x * G).T + np.dot(c, x) - self.objectiveOffset)
 
         return
 
@@ -923,31 +923,31 @@ class QP:
 #        print 'c'
 #        print c
        
-        iVarsWithJustUpperBound = [i for i in xrange(nVar) 
+        iVarsWithJustUpperBound = [i for i in range(nVar) 
                             if x_up[i] < infinity and x_low[i] <= -infinity]
         nVarsWithJustUpperBound = len(iVarsWithJustUpperBound)
 
-        iVarsWithJustLowerBound = [i for i in xrange(nVar) 
+        iVarsWithJustLowerBound = [i for i in range(nVar) 
                             if x_low[i] > -infinity and x_up[i] >= infinity]
         nVarsWithJustLowerBound = len(iVarsWithJustLowerBound)
         
         iVarsWithBothBounds = \
-                [i for i in xrange(nVar) 
+                [i for i in range(nVar) 
                         if x_low[i] > -infinity and x_up[i] < infinity]
         nVarsWithBothBounds = len(iVarsWithBothBounds)
 
         iConstraintsWithBothBounds = \
-                [i for i in xrange(nInEquality)
+                [i for i in range(nInEquality)
                         if c_up[i] < infinity and c_low[i] > -infinity]
         nConstraintsWithBothBounds = len(iConstraintsWithBothBounds)
 
         iConstraintsWithJustUpperBound = \
-                [i for i in xrange(nInEquality)
+                [i for i in range(nInEquality)
                         if c_up[i] < infinity and c_low[i] <= -infinity]
         nConstraintsWithJustUpperBound = len(iConstraintsWithJustUpperBound)
 
         iConstraintsWithJustLowerBound = \
-                [i for i in xrange(nInEquality)
+                [i for i in range(nInEquality)
                         if c_up[i] >= infinity and c_low[i] > -infinity]
         nConstraintsWithJustLowerBound = len(iConstraintsWithJustLowerBound)
 
@@ -1249,15 +1249,15 @@ class QP:
         #s.initialPrimalSolve()
         if method == 'wp':
             total = p.compCount + p.nonCompCount
-            print 'comp : %g ' % (p.compCount / float(total))
-            print 'comp rejection : %g' % (p.compRej / float(total))
+            print('comp : %g ' % (p.compCount / float(total)))
+            print('comp rejection : %g' % (p.compRej / float(total)))
         #print s.primalVariableSolution 
-        print 'OBJ:', s.objectiveValue 
+        print('OBJ:', s.objectiveValue) 
         x = np.matrix(s.primalVariableSolution['x']).T
-        print 'objective:'
+        print('objective:')
         qobj = 0.5 * x.T * G * x + np.dot(c, x) - self.objectiveOffset
        
-        print s.iteration
+        print(s.iteration)
         f = open('qpout', 'a')
         st = '%s %s %s %s %s %s %s\n' % (self.filename.ljust(30), method.ljust(2),
                 str(round(s.objectiveValue, 5)).ljust(8), 
@@ -1333,7 +1333,7 @@ class QP:
         if nInEquality > 0 :
             c_low = CyLPArray(c_low)
             c_up = CyLPArray(c_up)
-            print C
+            print(C)
             #c_low *= -1
             #m.addConstraint(c_low <= C * x <= c_up)
             #ss = m.addVariable('ss', 1)
@@ -1378,8 +1378,8 @@ class QP:
         
         s.primal()
         #s.initialPrimalSolve()
-        print s.primalVariableSolution 
-        print s.objectiveValue 
+        print(s.primalVariableSolution) 
+        print(s.objectiveValue) 
         return
 
         varIndexDic = {}
@@ -1390,7 +1390,7 @@ class QP:
         s = CyClpSimplex()
         model = CyCoinModel()
 
-        inds = range(nVar)
+        inds = list(range(nVar))
 
         # Convert G and A to sparse matrices (coo) if they're not already
         if type(G) == np.matrixlib.defmatrix.matrix:
@@ -1473,7 +1473,7 @@ class QP:
                 IndexFactory.addConst('x-x_l=x_low', 1)
                 IndexFactory.addVar('x_l', 1)
 
-        if 'g1' in IndexFactory.varIndex.keys():
+        if 'g1' in list(IndexFactory.varIndex.keys()):
             g1_inds = IndexFactory.varIndex['g1']
             for i in range(len(g1_inds)):
                 g1_i = g1_inds[i]
@@ -1553,8 +1553,8 @@ class QP:
                             np.array(rowi.data, 'd'), -infinity, infinity, 0)
         IndexFactory.addVar('y_A', A.shape[0])
 
-        cl = np.array(range(IndexFactory.currentVarIndex +
-                            A.shape[1]), np.int32)
+        cl = np.array(list(range(IndexFactory.currentVarIndex +
+                            A.shape[1])), np.int32)
         s.setComplementarityList(cl)
 
         #adding -z
@@ -1599,43 +1599,43 @@ class QP:
 
         st = clock()
         s.primal()
-        print "CLP time : %g seconds" % (clock() - st)
+        print("CLP time : %g seconds" % (clock() - st))
 
         x = s.getPrimalVariableSolution()
-        print "sol = "
+        print("sol = ")
         x = x[:nVar]
         #print x
         G = G.todense()
-        print 0.5 * x * (x * G).T + np.dot(c, x) - self.objectiveOffset
+        print(0.5 * x * (x * G).T + np.dot(c, x) - self.objectiveOffset)
         return
 
-        print 'feasibility'
-        print getSolution(s, 'z')
-        print getSolution(s, 'y_A')
+        print('feasibility')
+        print(getSolution(s, 'z'))
+        print(getSolution(s, 'y_A'))
         #print (s.getPrimalSolution()[:nVar] * G).T
         #print '*****'
         #print  (s.getPrimalSolution()[:nVar] * G).T + getSolution(s, 's^+') -\
         #               getSolution(s, 's^-') -
         #               (getSolution(s, 'y_A') * A)[:nVar] - \
         #               getSolution(s, 'z')[:nVar] #+ np.dot(c, x)
-        print '-c'
-        print -c
-        print getSolution(s, 'z')
+        print('-c')
+        print(-c)
+        print(getSolution(s, 'z'))
         #print getSolution(s, 'y_A') * A + getSolution(s, 'z')
-        print 's^+'
-        print getSolution(s, 's^+')
-        print 's^-'
-        print getSolution(s, 's^-')
+        print('s^+')
+        print(getSolution(s, 's^+'))
+        print('s^-')
+        print(getSolution(s, 's^-'))
 
         x = s.getPrimalVariableSolution()
-        print "sol = "
-        print x
+        print("sol = ")
+        print(x)
         G = G.todense()
-        print G.shape
-        print x * G
-        print c
-        print x
-        print 0.5 * x * (x * G).T + np.dot(c, x)
+        print(G.shape)
+        print(x * G)
+        print(c)
+        print(x)
+        print(0.5 * x * (x * G).T + np.dot(c, x))
 
 
 def getStat():
@@ -1663,9 +1663,9 @@ def QPTest():
         qp.Wolfe(sys.argv[2])
     else:
         qp.Wolfe()
-    print 'took %g seconds to read the problem' % r
-    print 'took %g seconds to solve the problem' % (clock() - start)
-    print "done"
+    print('took %g seconds to read the problem' % r)
+    print('took %g seconds to solve the problem' % (clock() - start))
+    print("done")
 
 import sys
 if __name__ == '__main__':

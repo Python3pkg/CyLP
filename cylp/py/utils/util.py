@@ -2,6 +2,7 @@ import numpy as np
 from math import atan2 
 from cylp.py import Constants
 from operator import mul
+from functools import reduce
 
 def sign(x): 
     if x > 0 or (x == 0 and atan2(x, -1.) > 0.): 
@@ -83,7 +84,7 @@ class conditions(object):
             function = function._func
    
         # filter out None conditions and build pairs of pre- and postconditions
-        conditions = map(None, filter(None, pres), filter(None, posts))
+        conditions = map(None, [_f for _f in pres if _f], [_f for _f in posts if _f])
    
         # add a wrapper for each pair (note that 'conditions' may be empty)
         for pre, post in conditions:
@@ -128,9 +129,9 @@ class Ind:
                 start = 0
             else:
                 start = sl.start
-            self.indices = range(start, stop)
+            self.indices = list(range(start, stop))
             self.dim = dim
-        elif isinstance(key, (int, long)):
+        elif isinstance(key, int):
             if key >= dim:
                 raise Exception('Index (%d) out of range (%d)' % (key, dim))
             self.indices = [key]
@@ -167,7 +168,7 @@ def getMultiDimMatrixIndex(inds, res=[]):
     l = []
     for i in r:
         prod = i
-        for k in xrange(1, n):
+        for k in range(1, n):
             prod *= inds[k].dim
         rest = getMultiDimMatrixIndex(inds[1:], res)
         l += res + [prod + rs for rs in rest]
@@ -183,7 +184,7 @@ def getTupleIndex(ind, dims):
         return [ind]
     #return getTupleIndex(ind / dims[-1], dims[:-1]) + [ind % dims[-1]]
     ret = []
-    for i in xrange(n):
+    for i in range(n):
         d = dims[n - i - 1]
         ret.insert(0, ind % d)
         ind /= d
@@ -200,6 +201,6 @@ if __name__ == '__main__':
     inds = getMultiDimMatrixIndex([i1, i2, i3])
 
     for i in inds:
-        print getTupleIndex(i, (5, 6, 7)), i
+        print(getTupleIndex(i, (5, 6, 7)), i)
     
-    print getTupleIndex(8, 8)
+    print(getTupleIndex(8, 8))

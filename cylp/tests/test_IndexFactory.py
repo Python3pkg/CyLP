@@ -25,7 +25,7 @@ class TestIndexFactory(unittest.TestCase):
         self.assertTrue((inds.constIndex['Bx'] == np.arange(0, 10)).all())
         self.assertTrue((inds.constIndex['Cx'] == np.arange(10, 25)).all())
         self.assertTrue((inds.constIndex['Dx'] == np.arange(25, 45)).all())
-        self.assertTrue('Ax' not in inds.constIndex.keys())
+        self.assertTrue('Ax' not in list(inds.constIndex.keys()))
         
     def test_c2(self):
         inds = self.inds
@@ -35,7 +35,7 @@ class TestIndexFactory(unittest.TestCase):
         self.assertTrue((inds.constIndex['Ax'] == np.arange(0, 5)).all())
         self.assertTrue((inds.constIndex['Cx'] == np.arange(5, 20)).all())
         self.assertTrue((inds.constIndex['Dx'] == np.arange(20, 40)).all())
-        self.assertTrue('Bx' not in inds.constIndex.keys())
+        self.assertTrue('Bx' not in list(inds.constIndex.keys()))
     
     def test_v1(self):
         inds = self.inds

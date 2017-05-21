@@ -26,7 +26,7 @@ class csc_matrixPlus(sparse.csc_matrix):
         self.CyLPExpr = CyLPExpr
         self.rowScaleFactor = self.colScaleFactor = None
 
-    def __setitem__(self, (iRow, iCol), val):
+    def __setitem__(self, xxx_todo_changeme, val):
         '''
         Set the item in row ``i`` and column ``j`` to ``val``.
         Increases matrix's size if necessary
@@ -46,7 +46,8 @@ class csc_matrixPlus(sparse.csc_matrix):
                 [ 2,  3,  6,  0,  0, 11]])
 
         '''
-        if not isinstance(val, (int, long, float)):
+        (iRow, iCol) = xxx_todo_changeme
+        if not isinstance(val, (int, float)):
             return sparse.csc_matrix.__setitem__(self, (iRow, iCol), val)
 
         nCols = self.shape[1]
@@ -61,7 +62,7 @@ class csc_matrixPlus(sparse.csc_matrix):
                     self.data[i] = val
                     return
             #If we reach here it means that index does NOT exist
-            for i in xrange(iCol + 1, nCols + 1):
+            for i in range(iCol + 1, nCols + 1):
                 self.indptr[i] += 1
             indexOfElement = self.indptr[iCol + 1] - 1
             #If indices is empty
@@ -110,7 +111,7 @@ class csc_matrixPlus(sparse.csc_matrix):
 
     def __getitem__(self, key):
         ret = sparse.csc_matrix.__getitem__(self, key)
-        if isinstance(ret, (int, long, float)):
+        if isinstance(ret, (int, float)):
             return ret
         return csc_matrixPlus(ret)
 
@@ -233,7 +234,7 @@ class csr_matrixPlus(sparse.csr_matrix):
         self.CyLPExpr = CyLPExpr
         self.rowScaleFactor = self.colScaleFactor = None
 
-    def __setitem__(self, (iRow, iCol), val):
+    def __setitem__(self, xxx_todo_changeme1, val):
         '''
         Sets the item in row ``i`` and col ``j`` to ``val``.
         Increases matrix's ``shape[1]`` if necessary
@@ -256,7 +257,8 @@ class csr_matrixPlus(sparse.csr_matrix):
          [ 0  0 11]]
 
         '''
-        if not isinstance(val, (int, long, float)):
+        (iRow, iCol) = xxx_todo_changeme1
+        if not isinstance(val, (int, float)):
             return sparse.csr_matrix.__setitem__(self, (iRow, iCol), val)
 
         nRows = self.shape[0]
@@ -297,7 +299,7 @@ class csr_matrixPlus(sparse.csr_matrix):
                     self.data[i] = val
                     return
             #if we reach here it means that index does NOT exist
-            for i in xrange(iRow + 1, nRows + 1):
+            for i in range(iRow + 1, nRows + 1):
                 self.indptr[i] += 1
             indexOfElement = self.indptr[iRow + 1] - 1
             # If indices is empty
@@ -344,7 +346,7 @@ class csr_matrixPlus(sparse.csr_matrix):
 
     def __getitem__(self, key):
         ret = sparse.csr_matrix.__getitem__(self, key)
-        if isinstance(ret, (int, long, float)):
+        if isinstance(ret, (int, float)):
             return ret
         return csr_matrixPlus(ret)
 

@@ -6,7 +6,7 @@ import numpy
 import unicodedata
 
 #A unicode function that is compatible with Python 2 and 3
-u = lambda s: s if sys.version_info[0] > 2 else unicode(s, 'utf-8')
+u = lambda s: s if sys.version_info[0] > 2 else str(s, 'utf-8')
 
 
 # Setuptools seems to get confused with c++ extensions

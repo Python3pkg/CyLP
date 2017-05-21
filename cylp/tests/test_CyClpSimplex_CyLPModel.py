@@ -235,7 +235,7 @@ class TestModel(unittest.TestCase):
         s += 2 * x[2, :, 3].sum() + 3 * x[0, 1, :].sum() >= 5
 
         s += 0 <= x <= 1
-        c = CyLPArray(range(18))
+        c = CyLPArray(list(range(18)))
 
         s.objective = c * x[2, :, :] + c * x[0, :, :]
         s.primal()
@@ -253,7 +253,7 @@ class TestModel(unittest.TestCase):
 
         s += x[1, 2, [0, 3, 5]] - x[2, 1, np.array([1, 2, 4])] == 1
         s += 0 <= x <= 1
-        c = CyLPArray(range(18))
+        c = CyLPArray(list(range(18)))
 
         s.objective = c * x[2, :, :] + c * x[0, :, :]
         s.primal()

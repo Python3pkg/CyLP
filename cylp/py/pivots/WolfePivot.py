@@ -1,6 +1,6 @@
-from itertools import izip
+
 import numpy as np
-from PivotPythonBase import PivotPythonBase
+from .PivotPythonBase import PivotPythonBase
 
 
 class WolfePivot(PivotPythonBase):
@@ -92,6 +92,6 @@ class WolfePivot(PivotPythonBase):
         v2n = v2.name
         listv1 = np.array(model.inds.varIndex[v1n])[v1.indices]
         listv2 = np.array(model.inds.varIndex[v2n])[v2.indices]
-        for i, j in izip(listv1, listv2):
+        for i, j in zip(listv1, listv2):
             self.complementarityList[i], self.complementarityList[j] = j, i
 

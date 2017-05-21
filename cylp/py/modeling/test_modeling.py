@@ -209,12 +209,12 @@ class TestModeling(unittest.TestCase):
         s = CyClpSimplex(m)
         s.primal()
 
-        self.assertTrue('y' in s.primalVariableSolution.keys())
+        self.assertTrue('y' in list(s.primalVariableSolution.keys()))
 
         m.removeVariable('y')
         s = CyClpSimplex(m)
         s.primal()
-        self.assertTrue('y' not in s.primalVariableSolution.keys())
+        self.assertTrue('y' not in list(s.primalVariableSolution.keys()))
 
     def test_removeVar2(self):
         s = CyClpSimplex()

@@ -1,5 +1,5 @@
-import urllib
-f = urllib.urlopen("http://www.netlib.org/lp/data/")
+import urllib.request, urllib.parse, urllib.error
+f = urllib.request.urlopen("http://www.netlib.org/lp/data/")
 lines = f.read().splitlines()
 
 for line in lines:
@@ -8,7 +8,7 @@ for line in lines:
         line = line[(ind_start + 1):]
         ind_end = line.index('<')
         line = line[:ind_end]
-        print 'Downloading ', line, '...'
-        urllib.urlretrieve("http://www.netlib.org/lp/data/" + line, line)
+        print('Downloading ', line, '...')
+        urllib.request.urlretrieve("http://www.netlib.org/lp/data/" + line, line)
 
 f.close()

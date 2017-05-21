@@ -1,9 +1,9 @@
-from itertools import izip
+
 import random
 import numpy as np
 from cylp.cy import CyCoinIndexedVector
 from cylp.cy.CyClpSimplex import cydot
-from PivotPythonBase import PivotPythonBase
+from .PivotPythonBase import PivotPythonBase
 
 
 class WolfePivotPE(PivotPythonBase):
@@ -54,7 +54,7 @@ class WolfePivotPE(PivotPythonBase):
 
         #self.p = np.where(np.abs(rhs) > self.EPSILON)[0]
         self.z = np.where(np.abs(rhs) <= self.EPSILON)[0]
-        print 'degeneracy level : ', (len(self.z)) / float(nRows)
+        print('degeneracy level : ', (len(self.z)) / float(nRows))
         #self.isDegenerate = (len(self.p) != nRows)
         self.isDegenerate = (len(self.z) > 0)
 
@@ -130,7 +130,7 @@ class WolfePivotPE(PivotPythonBase):
 #                    for i in xrange(random.randint(0,
 #                                    len(comp_varInds)),
 #                                    min(nn, len(comp_varInds))):
-                    for i in xrange(min(nn, len(comp_varInds))):
+                    for i in range(min(nn, len(comp_varInds))):
                     #for i in randinds:
                         ind = comp_varInds[i]
                         if (s.CLP_getVarStatus(cl[ind]) != 1 and
@@ -251,7 +251,7 @@ class WolfePivotPE(PivotPythonBase):
         v2n = v2.name
         listv1 = np.array(model.inds.varIndex[v1n])[v1.indices]
         listv2 = np.array(model.inds.varIndex[v2n])[v2.indices]
-        for i, j in izip(listv1, listv2):
+        for i, j in zip(listv1, listv2):
             (self.complementarityList[i], self.complementarityList[j]) = \
              (self.complementarityList[j], self.complementarityList[i])
 
